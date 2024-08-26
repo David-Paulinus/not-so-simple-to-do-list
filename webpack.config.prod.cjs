@@ -7,12 +7,13 @@ module.exports = merge(common, {
   mode: 'production',
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html',
+      template: './frontend/index.html',
     }),
     new CopyPlugin({
       patterns: [
         { from: 'frontend/img', to: 'frontend/img' },
         { from: 'frontend/css', to: 'frontend/css' },
+        { from: 'frontend/js/vendor', to: 'frontend/js/vendor' },
         { from: 'frontend/icon.svg', to: 'frontend/icon.svg' },
         { from: 'frontend/favicon.ico', to: 'frontend/favicon.ico' },
         { from: 'robots.txt', to: 'robots.txt' },
