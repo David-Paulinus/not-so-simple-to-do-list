@@ -3,4 +3,15 @@
 # Useful .gitignore templates: https://github.com/github/gitignore
 node_modules
 dist
+.idea
 .cache
+.editorconfig
+.gitattributes
+package-lock.json
+robots.txt
+site.webmanifest
+webpack.common.js
+webpack.config.dev.js
+webpack.config.prod.js
+backend/database.json
+
