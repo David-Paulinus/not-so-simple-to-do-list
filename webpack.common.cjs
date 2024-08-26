@@ -2,11 +2,11 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    app: './frontend.js/server.frontend.js',
+    app: './frontend/js/app.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     clean: true,
-    filename: './frontend.js/server.frontend.js',
+    filename: './frontend/js/app.js',
   },
 };

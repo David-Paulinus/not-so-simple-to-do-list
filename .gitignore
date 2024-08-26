@@ -8,7 +8,5 @@ dist
 .editorconfig
 .gitattributes
 package-lock.json
-robots.txt
-site.webmanifest
 backend/database.json
 
