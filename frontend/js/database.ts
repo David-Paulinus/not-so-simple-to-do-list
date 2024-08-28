@@ -1,5 +1,10 @@
 const baseURL = 'http://localhost:4000';
 
+export type todoEntry = {
+  id: string;
+  todo: string;
+}
+
 export const restoreFromDatabase = async () => {
   try {
     let response = await fetch(baseURL + '/todoAPI/list')
@@ -15,7 +20,7 @@ export const restoreFromDatabase = async () => {
 };
 
 
-export const addEntryToDatabase = async newEntry => {
+export const addEntryToDatabase = async (newEntry: todoEntry): Promise<string> => {
   try {
     const response = await fetch(
       baseURL + '/todoAPI/list',
@@ -32,13 +37,14 @@ export const addEntryToDatabase = async newEntry => {
   }
   catch (e) {
     console.log(`Failed to add new todo to database ${e}`);
+    return "null"
   }
 };
 
 
-export const updateEntryInDatabase = async updatedEntry => {
+export const updateEntryInDatabase = async (updatedEntry: todoEntry) => {
   try {
-    const response = await fetch(
+    await fetch(
       baseURL + '/todoAPI/list',
       {
         method: 'PATCH',
@@ -46,7 +52,6 @@ export const updateEntryInDatabase = async updatedEntry => {
         headers: {'Content-Type': 'application/json'}
       }
     );
-
     console.log('Successfully updated todo');
   }
   catch (e) {
@@ -55,7 +60,7 @@ export const updateEntryInDatabase = async updatedEntry => {
 }
 
 
-export const deleteEntryFromDatabase = async entry => {
+export const deleteEntryFromDatabase = async (entry: todoEntry) => {
   try {
     const response = await fetch(
       baseURL + '/todoAPI/list',

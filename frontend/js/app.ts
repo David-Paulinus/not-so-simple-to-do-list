@@ -1,41 +1,35 @@
-import {getRandomColor, isBrightColor} from "./colors.js";
-import {addEntryToDatabase, deleteEntryFromDatabase, restoreFromDatabase, updateEntryInDatabase} from "./database.js";
+import {getRandomColor, isBrightColor} from "./colors";
+import {todoEntry, addEntryToDatabase, deleteEntryFromDatabase, restoreFromDatabase, updateEntryInDatabase} from "./database";
 
 
 const toDoListElement = document.getElementById("to-do-list");
-let toDoListArr = []
+let toDoListArr: todoEntry[] = []
 let updating = false
-let updatingElement = []
+let updatingElement: Node[] = []
 
 
 function load_todos () {
   for (const idx in toDoListArr) {
-    addListItem(toDoListElement, toDoListArr[idx]);
+    addListItem(toDoListElement as HTMLElement, toDoListArr[idx]);
   }
 }
 
-
-function clear_todos() {
-  toDoListElement.innerHTML = ""
-}
-
-
-async function addEvent () {
-  const input = {id: null, todo: inputText.value};
+async function addEvent (inputText: HTMLInputElement) {
+  const input: todoEntry = {id: "null", todo: inputText.value};
   input.id = await addEntryToDatabase(input)
   toDoListArr.push(input)
-  addListItem(toDoListElement, input);
+  toDoListElement ? addListItem(toDoListElement, input) : {};
   inputText.value = ""
 }
 
 
-async function updateEvent(listItemContainer, item) {
-  const updateButton = listItemContainer.childNodes[1]
-  const deleteButton = listItemContainer.childNodes[2]
+async function updateEvent(listItemContainer: Node, item: todoEntry) {
+  const updateButton = listItemContainer.childNodes[1];
+  const deleteButton = listItemContainer.childNodes[2];
 
   if (!updating) {
     updating = true;
-    const listItemText = listItemContainer.childNodes[0]
+    const listItemText = listItemContainer.childNodes[0];
     const inputBox = document.createElement('input');
     inputBox.type = 'text';
     inputBox.placeholder = 'Change todo!';
@@ -48,30 +42,33 @@ async function updateEvent(listItemContainer, item) {
   }
   else {
     updating = false;
-    const inputBox = listItemContainer.childNodes[0];
+    const inputBox = listItemContainer.childNodes[0] as HTMLInputElement;
     const newTodo = inputBox.value;
     const listItemText = updatingElement.pop();
 
-    listItemText.textContent = newTodo;
-    inputBox.replaceWith(listItemText);
+    if (listItemText) {
+      listItemText.textContent = newTodo
+      inputBox.replaceWith(listItemText)
+    }
+
     updateButton.textContent = "Update";
     deleteButton.textContent = 'Delete';
 
     if (newTodo !== item.todo) {
       item.todo = newTodo
-      const _ = await updateEntryInDatabase(item);
+      await updateEntryInDatabase(item);
     }
   }
 }
 
 
-async function deleteEvent (listItem, listItemContainer, item) {
+async function deleteEvent (listItem: Node, listItemContainer: Node, item: todoEntry) {
   const updateButton = listItemContainer.childNodes[1]
   const deleteButton = listItemContainer.childNodes[2]
 
   if (!updating) {
-    const success = await deleteEntryFromDatabase(item);
-    listItem.parentElement.removeChild(listItem)
+    await deleteEntryFromDatabase(item);
+    listItem.parentElement?.removeChild(listItem)
     let itemIdx = toDoListArr.indexOf(item);
     toDoListArr.splice(itemIdx, 1);
   }
@@ -80,14 +77,14 @@ async function deleteEvent (listItem, listItemContainer, item) {
     const inputBox = listItemContainer.childNodes[0];
     const listItemText = updatingElement.pop();
 
-    inputBox.replaceWith(listItemText);
+    listItemText? inputBox.replaceWith(listItemText): {};
     updateButton.textContent = "Update";
     deleteButton.textContent = 'Delete';
   }
 }
 
 
-function addListItem (listElement, item) {
+function addListItem (listElement: HTMLElement, item: todoEntry) {
   // Create a list item element
   let listItem = document.createElement('li');
   listItem.style.width = '500px';
@@ -136,7 +133,7 @@ function addListItem (listElement, item) {
 
 let inputButton = document.getElementById("todo-button");
 let inputText = document.getElementById('list-entry-box')
-inputButton.addEventListener('click', async () => await addEvent());
+inputButton?.addEventListener('click', async () => await addEvent(inputText as HTMLInputElement));
 
 toDoListArr = await restoreFromDatabase()
 load_todos()

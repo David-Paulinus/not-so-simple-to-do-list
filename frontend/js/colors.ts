@@ -1,4 +1,4 @@
-export const getRandomColor = () => {
+export const getRandomColor = (): string => {
   const letters = '0123456789ABCDEF';
   let color = '#';
   for (let i = 0; i < 6; i++) {
@@ -7,7 +7,7 @@ export const getRandomColor = () => {
   return color;
 };
 
-export const hexToRgb = hex => {
+export const hexToRgb = (hex: string) => {
   hex = hex.replace(/^#/, '');
   let bigint = parseInt(hex, 16);
   let r = (bigint >> 16) & 255;
@@ -16,7 +16,7 @@ export const hexToRgb = hex => {
   return { r, g, b };
 };
 
-export const isBrightColor = color => {
+export const isBrightColor = (color: string) => {
   let { r, g, b } = hexToRgb(color);
   let brightness = (r + g + b) / 3;
   return brightness > 127;
