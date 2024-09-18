@@ -6,9 +6,10 @@ const app = express();
 
 app.use(cors())
 app.use(express.json())
+app.use(express.text());
 app.use('/todoAPI', router);
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   console.log('I am here');
   res.send('Hi there!')
 })

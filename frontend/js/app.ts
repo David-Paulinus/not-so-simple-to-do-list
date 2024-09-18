@@ -67,7 +67,7 @@ async function deleteEvent (listItem: Node, listItemContainer: Node, item: todoE
   const deleteButton = listItemContainer.childNodes[2]
 
   if (!updating) {
-    await deleteEntryFromDatabase(item);
+    await deleteEntryFromDatabase(item.id);
     listItem.parentElement?.removeChild(listItem)
     let itemIdx = toDoListArr.indexOf(item);
     toDoListArr.splice(itemIdx, 1);

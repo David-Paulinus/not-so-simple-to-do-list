@@ -8,5 +8,5 @@ dist
 .editorconfig
 .gitattributes
 package-lock.json
-backend/database.json
+backend/datalist.json
 

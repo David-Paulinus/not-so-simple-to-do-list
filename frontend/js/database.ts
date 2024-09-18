@@ -60,14 +60,14 @@ export const updateEntryInDatabase = async (updatedEntry: todoEntry) => {
 }
 
 
-export const deleteEntryFromDatabase = async (entry: todoEntry) => {
+export const deleteEntryFromDatabase = async (entryId: string) => {
   try {
     const response = await fetch(
       baseURL + '/todoAPI/list',
       {
         method: 'DELETE',
-        body: JSON.stringify(entry),
-        headers: {'Content-Type': 'application/json'}
+        body: entryId,
+        headers: {'Content-Type': 'text/plain'}
       }
     );
 
